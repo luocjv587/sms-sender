@@ -53,23 +53,25 @@ object ForwardApi {
         }
     }
 
-    private fun requestBody(config: AppConfig, message: PendingMessage) = JSONObject()
-        .put(
-            "smtp",
-            JSONObject()
-                .put("host", config.smtpHost)
-                .put("port", config.smtpPort.toInt())
-                .put("secure", config.security == SmtpSecurity.SSL_TLS)
-                .put("user", config.username)
-                .put("pass", config.password),
-        )
-        .put(
-            "mail",
-            JSONObject()
-                .put("from", config.from)
-                .put("fromName", message.sender)
-                .put("to", config.to)
-                .put("subject", "短信转发 · ${message.sender}")
-                .put("text", message.body),
-        )
+    private fun requestBody(config: AppConfig, message: PendingMessage): JSONObject {
+        val email = EmailContentBuilder.build(message.sender, message.body)
+        return JSONObject()
+            .put(
+                "smtp",
+                JSONObject()
+                    .put("host", config.smtpHost)
+                    .put("port", config.smtpPort.toInt())
+                    .put("secure", config.security == SmtpSecurity.SSL_TLS)
+                    .put("user", config.username)
+                    .put("pass", config.password),
+            )
+            .put(
+                "mail",
+                JSONObject()
+                    .put("from", config.from)
+                    .put("to", config.to)
+                    .put("subject", email.subject)
+                    .put("text", email.body),
+            )
+    }
 }
