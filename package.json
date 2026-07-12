@@ -1,0 +1,25 @@
+{
+  "name": "sms-sender-forwarder",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "vitest run",
+    "typecheck": "tsc --noEmit",
+    "build": "tsc --noEmit"
+  },
+  "dependencies": {
+    "ipaddr.js": "^2.2.0",
+    "nodemailer": "^7.0.5"
+  },
+  "devDependencies": {
+    "@types/node": "^24.0.13",
+    "@types/nodemailer": "^6.4.17",
+    "@vercel/node": "^5.3.6",
+    "typescript": "^5.8.3",
+    "vitest": "^3.2.4"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}
